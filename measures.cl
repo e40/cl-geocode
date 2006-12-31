@@ -56,10 +56,10 @@
 	  (lat2 (radians (location-latitude location2)))
 	  (lon1 (radians (location-longitude location1)))
 	  (lon2 (radians (location-longitude location2)))
-	  (r (case unit
-	       (:miles 3963.0)
-	       (:nautical-miles 3437.74677)
-	       (:kilometers 6378.7))))
+	  (radius (case unit
+		    (:miles 3963.0)
+		    (:nautical-miles 3437.74677)
+		    (:kilometers 6378.7))))
       (* radius
 	 (acos (+ (* (sin lat1) (sin lat2))
 		  (* (cos lat1) (cos lat2) (cos (- lon2 lon1)))))))))
