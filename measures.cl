@@ -30,6 +30,8 @@
 
 ;; not thrilled with this name:
 (defun location-near-p (location reference within)
+  "Is LOCATION near REFERENCE location to WITHIN decimal degrees in both
+latitude and longitude?"
   (and (< (abs (- (location-latitude location)
 		  (location-latitude reference)))
 	  within)
@@ -38,14 +40,16 @@
 	  within)))
 
 (defun distance-between (location1 location2 &key (unit :miles))
-  ;; Use the "Great Circle Distance Formula" (also called the Consine Law
-  ;; formula?) to calculate the distance between two coordinates:
-  ;;    r * acos[sin(lat1) * sin(lat2) +
-  ;;        cos(lat1) * cos(lat2) * cos(lon2 - lon1)]
+  "Calculate the straight line distance on the surface of the earth between
+LOCATION1 and LOCATION2 using the \"Great Circle Distance Formula\".  The
+values of the keyword UNIT can be :miles (the default), :nautical-miles or
+:kilometers."
+  ;; r * acos[sin(lat1) * sin(lat2) +
+  ;;     cos(lat1) * cos(lat2) * cos(lon2 - lon1)]
   ;; Where r is the radius of the earth in whatever units you desire:
-  ;;   r=3437.74677 (nautical miles)
-  ;;   r=6378.7 (kilometers)
-  ;;   r=3963.0 (statute miles)
+  ;;     r=3437.74677 (nautical miles)
+  ;;     r=6378.7 (kilometers)
+  ;;     r=3963.0 (statute miles)
   ;; However, the values of degrees must be converted to radians before
   ;; passing them to the trig functions.
   ;;
