@@ -1,5 +1,7 @@
 # $Id$
 
+SOURCE_FILES = Makefile measures.cl readme.txt
+
 include ../makefile.include
 
 all: measures.fasl
