@@ -2,6 +2,8 @@
 
 SOURCE_FILES = Makefile measures.cl readme.txt
 
+default: all
+
 include ../makefile.include
 
 all: measures.fasl
