@@ -1,6 +1,6 @@
 # $Id$
 
-SOURCE_FILES = Makefile measures.cl readme.txt
+SOURCE_FILES = Makefile measures.cl readme.txt measures.asd
 
 default: all
 
