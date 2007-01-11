@@ -1,4 +1,11 @@
 ;; $Id$
+;;
+;; This software is Copyright (c) Kevin Layer, 2006-2007.
+;; You are granted the rights to distribute
+;; and use this software as governed by the terms
+;; of the Lisp Lesser GNU Public License
+;; (http://opensource.franz.com/preamble.html),
+;; known as the LLGPL.
 
 (defpackage :util.measures
   (:use #:common-lisp #:excl)
