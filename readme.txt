@@ -1,13 +1,13 @@
 
-(require :measures) provides the :util.measures package.
+(require :cl-geocode) provides the :cl-geocode package.
 
 A location is described by a latitude and longitude in decimal
 degrees.
 
-cl-user(2): (require :measures)
-; Fast loading /usr/local/lisp/code/measures.fasl
+cl-user(2): (require :cl-geocode)
+; Fast loading /usr/local/lisp/code/cl-geocode.fasl
 t
-cl-user(3): (use-package :util.measures)
+cl-user(3): (use-package :cl-geocode)
 t
 cl-user(4): (setq location1
 	      (make-location :latitude 38.005 :longitude -121.804726))
@@ -43,20 +43,20 @@ cl-user(10):
 ;; the meridians converge at the poles:
 
 cl-user(10): (distance-between
-	     (make-location :latitude 37.0 :longitude -121.0)
-	     (make-location :latitude 37.0 :longitude -122.0))
+	      (make-location :latitude 37.0 :longitude -121.0)
+	      (make-location :latitude 37.0 :longitude -122.0))
 55.23928644738535d0
 cl-user(11): (distance-between
-	     (make-location :latitude 50.0 :longitude -121.0)
-	     (make-location :latitude 50.0 :longitude -122.0))
+	      (make-location :latitude 50.0 :longitude -121.0)
+	      (make-location :latitude 50.0 :longitude -122.0))
 44.459615443471485d0
 cl-user(12): (distance-between
-	     (make-location :latitude 80.0 :longitude -121.0)
-	     (make-location :latitude 80.0 :longitude -122.0))
+	      (make-location :latitude 80.0 :longitude -121.0)
+	      (make-location :latitude 80.0 :longitude -122.0))
 12.010644812832272d0
 cl-user(13): (distance-between
-	     (make-location :latitude 90.0 :longitude -121.0)
-	     (make-location :latitude 90.0 :longitude -122.0))
+	      (make-location :latitude 90.0 :longitude -121.0)
+	      (make-location :latitude 90.0 :longitude -122.0))
 0.0d0
 cl-user(14): 
 
