@@ -139,4 +139,60 @@ values of the keyword UNIT can be :miles (the default), :nautical-miles or
       (setq best-i i)
       (setq min-diff diff))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; See 
+;; http://www.google.com/apis/maps/documentation/#Geocoding_HTTP_Request
+
+(defvar *default-key* nil
+  "A default Google Maps API key for calls to geocode.  You can obtain a
+key by visiting http://www.google.com/apis/maps/signup.html.")
+
+(defun geocode (&key q (key *default-key*) (output :csv))
+  "Geocoding is the process of converting addresses (like \"1600
+Amphitheatre Parkway, Mountain View, CA\") into geographic coodinates (like
+latitude 37.423021 and longitude -122.083739), which you can use to place
+markers or position the map based on street addresses in your database or
+addresses supplied by users. The Google Maps API includes a geocoder that
+can be accessed via HTTP request."
+  (when (null key)
+    (error "You must specify a Google Maps API key, which you can ~
+obtain from the http://www.google.com/apis/maps/signup.html."))
+  (when (null q)
+    (error "You must specify an address to geocode (e.g., \"Oakland, CA\")."))
+  (setq output
+    (case output
+      ((:csv :xml :kml :json) (string-downcase (symbol-name output)))
+      (t (error "Bad :output keyword value: ~s." output))))
+  (let ((query (query-to-form-urlencoded
+		`(("q" . ,q) ("output" . ,output) ("key" . ,key))))
+	(url-base "http://maps.google.com/maps/geo"))
+    (values
+     (do-http-request (format nil "~a?~a" url-base query)
+       :method :get
+       ;; Dunno if this is needed.  I started getting "connection reset by
+       ;; peer" for a while, so I added this.  About the time I added it I
+       ;; stopped getting them.  Hmmmmmmm.
+       :user-agent "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.0.1) Gecko/20060111 Firefox/1.5.0.9"))))
+
+(defun place-to-location (place &key (key *default-key*))
+  (let ((result (geocode :q place :key key :output :csv)))
+    ;; Using :csv, a good result starts with "200," and a bad result with
+    ;; "602,".
+    (when (and result (stringp result))
+      (multiple-value-bind (found whole lat lon)
+	  (match-re "200,[^,]+,(-?[0-9.]+),(-?[0-9.]+)" result)
+	(declare (ignore whole))
+	(when found
+	  (make-location
+	   :latitude (read-from-string lat)
+	   :longitude (read-from-string lon)))))))
+
+(defun location-to-place (location)
+  (let ((zipcode (location-to-zipcode location)))
+    (when zipcode
+      (format nil "~@[~a, ~]~a"
+	      (zipcode-city zipcode)
+	      (zipcode-state zipcode)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide :cl-geocode)
