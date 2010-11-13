@@ -156,3 +156,28 @@ Return the location corresponding to **PLACE**.
     location-to-place location
 
 Return the place corresponding to **LOCATION**.
+
+## Implementation Details
+
+**place-to-location** is pretty straightforward.  The Google Maps API
+converts the place to a location.
+
+**location-to-place**, however, is a little trickier.  There is no
+readily available web resource that will do this (like Google Maps). I
+did find The [Zip Code Database
+Project](http://sourceforge.net/project/showfiles.php?group_id=111073)
+which contains location coordinates for each zip code, and the data
+includes the names of the cities for each zip code.  It's a fairly
+simple matter to find the nearest match for a set of coordinates.
+
+So, imbedded in cl-geocode is the function **location-to-zipcode**:
+
+    cl-user(24): (location-to-zipcode (place-to-location "Oakland, CA"))
+    #<zipcode 94612 (Oakland, California): 37.809425,-122.27172>
+    cl-user(25): 
+
+and
+
+    cl-user(31): (location-to-zipcode (place-to-location "1 Infinite Loop"))
+    #<zipcode 94087 (Sunnyvale, California): 37.35009,-122.03602>
+    cl-user(32): 
