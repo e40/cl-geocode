@@ -1,6 +1,6 @@
-cl-geocode is a geocoding API for Common Lisp.
+# cl-geocode: a geocoding API for Common Lisp
 
-cl-geocode is loaded via ASDF and the file cl-geocode.asdf.
+cl-geocode is loaded via ASDF and the file cl-geocode.asd.
 
 The basics of the API are:
 
@@ -11,19 +11,14 @@ The basics of the API are:
    "555 12th St., Oakland, CA".
 
 The API allows the conversion of places to locations and locations to
-places.  For example:
+places.
+
+## Examples
 
     cl-user(13): (use-package :cl-geocode)
     t
     cl-user(14): (setq cl-geocode:*default-key* "...")
     "..."
-    cl-user(15): 
-
-You need to setup your own google maps API key.  You can obtain a
-key by visiting http://www.google.com/apis/maps/signup.html.
-
-Now that we have a key:
-
     cl-user(15): (place-to-location "Berkeley, CA")
     #<location 37.871593,-122.27274>
     cl-user(16): (location-to-place *)
@@ -44,7 +39,7 @@ Now that we have a key:
     2280.312157508608d0
     cl-user(21): 
 
-Some addition examples:
+Examples of the lower-level parts of the API:
 
     cl-user(4): (setq location1
 		  (make-location :latitude 38.005 :longitude -121.804726))
@@ -115,3 +110,49 @@ Sometimes it is nice to see if a location is near another:
 		  0.1)
     nil
     cl-user(18): 
+
+## The complete API
+
+### Types
+
+A location is a structure containing a latitude and longitude.  The
+accessors are:
+
+    location-latitude
+    location-longitude
+
+and the constructor is
+
+    make-location
+
+### Variables
+
+    *default-key*
+
+The value of this is a string representing your Google Maps API
+key. Obtain your own Google Maps API key from
+[here](http://www.google.com/apis/maps/signup.html).
+
+### Functions
+
+Functions which operate on locations are:
+
+    distance-between location1 location2 &key (unit :miles)
+
+This calculates the straight line distance on the surface of the earth
+between **LOCATION1** and **LOCATION2** using the "Great Circle
+Distance Formula".  The values of the keyword **UNIT** can be :miles
+(the default), :nautical-miles or :kilometers.
+
+    location-near-p location reference within
+
+Return true if **LOCATION** is near **REFERENCE** (a location) to
+**WITHIN** decimal degrees in both latitude and longitude.
+
+    place-to-location place &key (key *default-key*)
+
+Return the location corresponding to **PLACE**.
+
+    location-to-place location
+
+Return the place corresponding to **LOCATION**.
