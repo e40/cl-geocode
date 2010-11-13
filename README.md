@@ -1,20 +1,20 @@
 # cl-geocode: a geocoding API for Common Lisp
 
+Geocoding is the process of finding associated geographic coordinates
+(expressed as latitude and longitude) from other geographic
+data, such as street addresses, or zip codes (postal codes).
+
+Reverse geocoding is the opposite: finding an associated textual
+location such as a street address, from geographic coordinates.
+
+This API does both.
+
 cl-geocode is loaded via ASDF and the file cl-geocode.asd.
-
-The basics of the API are:
-
- * A location is described by a latitude and longitude in decimal
-   degrees.
-
- * A place is the name of location, like "Berkeley, CA" or
-   "555 12th St., Oakland, CA".
-
-The API allows the conversion of places to locations and locations to
-places.
 
 ## Examples
 
+    cl-user(12): (asdf:load-system :cl-geocode)
+    ...
     cl-user(13): (use-package :cl-geocode)
     t
     cl-user(14): (setq cl-geocode:*default-key* "...")
