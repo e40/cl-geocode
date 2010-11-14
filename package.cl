@@ -10,9 +10,12 @@
 (defpackage :cl-geocode
   (:use #:common-lisp
 	#+allegro #:excl
+	#-allegro #:acl-compat.excl
 	#:net.aserve
 	#:net.aserve.client)
   
+  #+sbcl
+  (:import-from #:puri #:delimited-string-to-list)
   (:export #:location
 	   #:location-latitude
 	   #:location-longitude

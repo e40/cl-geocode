@@ -174,11 +174,25 @@ obtain from the http://www.google.com/apis/maps/signup.html."))
        ;; stopped getting them.  Hmmmmmmm.
        :user-agent "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.0.1) Gecko/20060111 Firefox/1.5.0.9"))))
 
-(defun place-to-location (place &key (key *default-key*))
+(defvar *place-to-location-re*
+    (let ((re "200,[^,]+,(-?[0-9.]+),(-?[0-9.]+)"))
+      #+allegro (compile-re re)
+      #+sbcl (cl-ppcre:create-scanner re)))
+
+(defun place-to-location (place &key (key *default-key*)
+			  &aux (re *place-to-location-re*))
   (let ((result (geocode :q place :key key :output :csv)))
     ;; Using :csv, a good result starts with "200," and a bad result with
     ;; "602,".
     (when (and result (stringp result))
+      #+sbcl
+      (multiple-value-bind (found res-vec)
+	  (cl-ppcre:scan-to-strings re result)
+	(when found
+	  (make-location
+	   :latitude (read-from-string (aref res-vec 0))
+	   :longitude (read-from-string (aref res-vec 1)))))
+      #+allegro
       (multiple-value-bind (found whole lat lon)
 	  (match-re "200,[^,]+,(-?[0-9.]+),(-?[0-9.]+)" result)
 	(declare (ignore whole))

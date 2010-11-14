@@ -13,5 +13,6 @@
     :default-component-class cl-user::my-cl-source-file
     :components ((:file "package")
 		 (:file "zip-util")
-		 (:file "geocode" :depends-on ("package" "zip-util"))
-		 ))
+		 (:file "geocode" :depends-on ("package" "zip-util")))
+    #+sbcl :depends-on
+    #+sbcl ("aserve" "acl-compat" "cl-ppcre"))
