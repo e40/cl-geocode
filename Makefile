@@ -2,9 +2,7 @@
 default: all
 
 %.fasl : %.asd
-	mlisp -qq -batch -L asdf-setup -W \
-	      -e '(asdf:compile-system :$*)' \
-	      -kill
+	mlisp -qq -batch -W -e '(asdf:compile-system :$*)' -kill
 
 all: clean cl-geocode.fasl
 	cat package.fasl geocode.fasl > cl-geocode.fasl
