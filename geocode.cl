@@ -194,7 +194,7 @@ obtain from the http://www.google.com/apis/maps/signup.html."))
 	   :longitude (read-from-string (aref res-vec 1)))))
       #+allegro
       (multiple-value-bind (found whole lat lon)
-	  (match-re "200,[^,]+,(-?[0-9.]+),(-?[0-9.]+)" result)
+	  (match-re re result)
 	(declare (ignore whole))
 	(when found
 	  (make-location
