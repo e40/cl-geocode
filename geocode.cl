@@ -76,7 +76,7 @@ values of the keyword UNIT can be :miles (the default), :nautical-miles or
 ;;;; not need to be around to load the files.
 	#.(let ((zipcodes
 	       (prog2
-		   (progn (format t "reading zips.cvs...")
+		   (progn (format t "reading zips.csv...")
 			  (force-output))
 		   (read-zipcodes-csv 
 		    (merge-pathnames "zips.csv" *compile-file-pathname*))
