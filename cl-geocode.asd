@@ -10,6 +10,7 @@
 (asdf:disable-output-translations)
 
 (asdf:defsystem cl-geocode
+    :maintainer "cl-geocode@lumi.net"
     :default-component-class cl-geocode-source-file
     :components ((:file "package")
 		 (:file "zip-util")
