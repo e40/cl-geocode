@@ -5,11 +5,12 @@
 
 (use-package :cl-geocode)
 
-(load "..//google-maps-key.cl")
+(load "../google-maps-key.cl")
 
 (assert (string= "Berkeley, California"
 		 (location-to-place
-		  (place-to-location
-		   "2629 College Ave, Berkeley, CA"))))
+		  (place-to-location "2629 College Ave, Berkeley, CA"))))
 
-(exit 0)
+#+allegro (exit 0)
+#+sbcl (quit)
+

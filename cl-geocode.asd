@@ -1,6 +1,10 @@
 
 (in-package :cl-user)
 
+(require :asdf)
+
+#+sbcl (ql:quickload "aserve")
+
 (defclass cl-geocode-source-file (asdf:cl-source-file) ())
 
 (defmethod asdf:source-file-type ((f cl-geocode-source-file) (m asdf:module))
@@ -13,6 +17,4 @@
     :default-component-class cl-geocode-source-file
     :components ((:file "package")
 		 (:file "zip-util")
-		 (:file "geocode" :depends-on ("package" "zip-util")))
-    #+sbcl :depends-on
-    #+sbcl ("aserve" "acl-compat" "cl-ppcre"))
+		 (:file "geocode" :depends-on ("package" "zip-util"))))
